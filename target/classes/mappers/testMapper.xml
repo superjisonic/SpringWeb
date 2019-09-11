@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!--   매퍼는 sql을 담는 영역-> 그래서 네임스페이스는  패키지...!를 담아줘야함 -->
+<mapper namespace="com.sinc.test">
+<!-- 	<select id="select" resultType="test">
+		SELECT	ID, PWD, NAME
+		FROM	SPRING_TEST_MEM_TBL
+	</select>
+	
+	<insert id="insert"
+			parameterType="test">
+			INSERT INTO SPRING_TEST_MEM_TBL
+			VALUES(#{id},#{pwd},#{name})
+		
+	</insert> -->
+	
+	
+</mapper>  
+
+
+
+
+
+
+
+
+
+
+

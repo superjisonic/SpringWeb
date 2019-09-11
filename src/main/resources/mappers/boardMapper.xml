@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!--   매퍼는 sql을 담는 영역-> 그래서 네임스페이스는  패키지...!를 담아줘야함  얘는 파라미터를 넘겨주지 않으므로 parameterType=""이게 필요없음-->
+<mapper namespace="com.sinc.board">
+	<select id="list" resultType="board">
+	<!-- BIND가 되지 않으므로 꼭 별칭을 줘야한다! (REGDATE)-->
+		SELECT	SEQ,TITLE,WRITER,
+				TO_CHAR(REGDATE,'RRRR-MM-DD') REGDATE, VIEWCNT
+		FROM SPRING_BOARD_TBL
+		ORDER BY 1 DESC
+	</select>	
+	<insert id="registerBoard" parameterType="board">
+		INSERT INTO SPRING_BOARD_TBL(SEQ,TITLE, CONTENT, WRITER, REGDATE, VIEWCNT)	
+		VALUES(BOARD_SEQ.NEXTVAL, #{title}, #{content}, #{writer}, DEFAULT, DEFAULT)
+	</insert>	
+	
+	<!-- dynamic query -->
+	<!-- java.util.HashMap을 넣는다.. alias 건 것으로...! 타입을 걸어줘야함
+	 근데 parameterType에  map을 쓸 수 있을까? java.util.list 이렇게 써야함. java.util.HashMap으로 써야함. -->
+	<select id="searchAjax" parameterType="map" resultType="board"> 
+		SELECT	SEQ,TITLE,WRITER,
+				TO_CHAR(REGDATE,'RRRR-MM-DD') REGDATE, VIEWCNT
+		FROM SPRING_BOARD_TBL
+		<where>
+			<if test="type == 'title'">
+				TITLE LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="type == 'writer'">
+				WRITER LIKE '%'||#{keyword}||'%'
+			</if>
+		</where>
+		ORDER BY 1 DESC
+		<!-- 마무리 꿀팁... c data section...
+			WHERE SALARY > 1000 여기서 >이부분을 C DATA SECTION표시를 해야 꺾쇠를 문자열로 인식함
+			WHERE SALARY <![CDATA[>]]> 1000 -->
+			
+	</select>	
+	<select id="readBoard" parameterType="board" resultType="board">
+	<!-- BIND가 되지 않으므로 꼭 별칭을 줘야한다! (REGDATE)-->
+		SELECT	SEQ,TITLE, CONTENT ,WRITER,
+				TO_CHAR(REGDATE,'RRRR-MM-DD') REGDATE, VIEWCNT
+		FROM SPRING_BOARD_TBL
+		WHERE SEQ = #{seq}
+	</select>
+</mapper>  
